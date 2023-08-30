@@ -3,7 +3,7 @@ import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import NavigationAction from "./navigation-action";
 
-const NavigationSideBar = async () => {
+export const NavigationSideBar = async () => {
   const profile = await currentProfile();
 
   if (!profile) {
@@ -25,5 +25,3 @@ const NavigationSideBar = async () => {
     </div>
   );
 };
-
-export default NavigationSideBar;
