@@ -84,6 +84,7 @@ const InviteModal = () => {
             </Button>
           </div>
           <Button
+            onClick={onNew}
             variant='link'
             size='sm'
             className='text-xs text-zinc-500 mt-4'
