@@ -57,7 +57,7 @@ const LeaveServerModal = () => {
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <div className='flex items-center justify-between w-full'>
+          <div className='flex items-center justify-between w-full px-6 pb-6'>
             <Button
               disabled={isLoading}
               onClick={onClose}
