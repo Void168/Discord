@@ -1,16 +1,20 @@
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
 import { ChannelType, MemberRole } from "@prisma/client";
-import { redirect } from "next/navigation";
-import { ServerHeader } from "./server-header";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { SearchServer } from "@/components/server/server-search";
-import { Hash, Mic, ShieldAlert, ShieldCheck, Video } from "lucide-react";
-import { Separator } from "@/components/ui/separator";
-import { ServerSection } from "./server-section";
-import { channel } from "diagnostics_channel";
-import { ServerChannel } from "./server-channel";
 
+import { redirect } from "next/navigation";
+
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+
+import { ServerHeader } from "@/components/server/server-header";
+import { SearchServer } from "@/components/server/server-search";
+import { ServerSection } from "@/components/server/server-section";
+import { ServerChannel } from "@/components/server/server-channel";
+import { ServerMember } from "@/components/server/server-member";
+
+import { channel } from "diagnostics_channel";
+import { Hash, Mic, ShieldAlert, ShieldCheck, Video } from "lucide-react";
 interface ServerSidebarProps {
   serverId: string;
 }
@@ -135,14 +139,16 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
               role={role}
               label='Text Channels'
             />
-            {textChannels.map((channel) => (
-              <ServerChannel
-                key={channel.id}
-                channel={channel}
-                role={role}
-                server={server}
-              />
-            ))}
+            <div className='space-y-[2px]'>
+              {textChannels.map((channel) => (
+                <ServerChannel
+                  key={channel.id}
+                  channel={channel}
+                  role={role}
+                  server={server}
+                />
+              ))}
+            </div>
           </div>
         )}
         {!!audioChannels?.length && (
@@ -153,14 +159,16 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
               role={role}
               label='Voice Channels'
             />
-            {audioChannels.map((channel) => (
-              <ServerChannel
-                key={channel.id}
-                channel={channel}
-                role={role}
-                server={server}
-              />
-            ))}
+            <div className='space-y-[2px]'>
+              {audioChannels.map((channel) => (
+                <ServerChannel
+                  key={channel.id}
+                  channel={channel}
+                  role={role}
+                  server={server}
+                />
+              ))}
+            </div>
           </div>
         )}
         {!!videoChannels?.length && (
@@ -171,14 +179,35 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
               role={role}
               label='Video Channels'
             />
-            {videoChannels.map((channel) => (
-              <ServerChannel
-                key={channel.id}
-                channel={channel}
-                role={role}
-                server={server}
-              />
-            ))}
+            <div className='space-y-[2px]'>
+              {videoChannels.map((channel) => (
+                <ServerChannel
+                  key={channel.id}
+                  channel={channel}
+                  role={role}
+                  server={server}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+        {!!members?.length && (
+          <div className='mb-2'>
+            <ServerSection
+              sectionType='members'
+              role={role}
+              label='Members'
+              server={server}
+            />
+            <div className='space-y-[2px]'>
+              {members.map((member) => (
+                <ServerMember
+                  key={member.id}
+                  member={member}
+                  server={server}
+                />
+              ))}
+            </div>
           </div>
         )}
       </ScrollArea>
