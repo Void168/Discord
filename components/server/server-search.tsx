@@ -1,19 +1,17 @@
 "use client";
 
 import { Search } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
-  Command,
   CommandDialog,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator,
-  CommandShortcut,
 } from "@/components/ui/command";
+import { useParams, useRouter } from "next/navigation";
 
 interface SearchServerProps {
   data: {
@@ -30,8 +28,33 @@ interface SearchServerProps {
 }
 
 export const SearchServer = ({ data }: SearchServerProps) => {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
+  const router = useRouter()
+  const params = useParams()
 
+  useEffect(() => {
+    const down = (e: KeyboardEvent) => {
+      if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        setOpen((open) => !open);
+      }
+    };
+
+    document.addEventListener("keydown", down);
+    return () => document.removeEventListener("keydown", down);
+  }, []);
+
+  const onClick = ({id, type}: {id:string, type: "channel" | "member"}) => {
+    setOpen(false)
+
+    if (type === "member") {
+      return router.push(`/servers/${params?.serverId}/conversations/${id}`)
+    }
+
+    if (type === "channel") {
+      return router.push(`/servers/${params?.serverId}/channels/${id}`)
+    }
+  }
   return (
     <>
       <button
@@ -65,7 +88,7 @@ export const SearchServer = ({ data }: SearchServerProps) => {
                   return (
                     <CommandItem
                       key={id}
-                      onSelect={() => {}}
+                      onSelect={() => onClick({id, type})}
                     >
                       {icon}
                       <span>{name}</span>
