@@ -16,10 +16,10 @@ export const metadata: Metadata = {
   description: "Discord clone",
   icons: {
     icon: [
-      '/favicon.icon?v=4'
+      '/favicon.ico'
     ],
     apple: [
-      '/apple-touch-icon.png?v=4'
+      '/apple-touch-icon.png'
     ],
     shortcut: [
       'apple-touch-icon.png'
