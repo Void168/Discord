@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
+import { Message } from "@prisma/client";
 
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
-import { Message } from "@prisma/client";
 
-const MESSAGES_BATCH = 25;
+const MESSAGES_BATCH = 15;
 
 export async function GET(req: Request) {
   try {
@@ -42,7 +42,7 @@ export async function GET(req: Request) {
           },
         },
         orderBy: {
-          createAt: "desc",
+          createdAt: "desc",
         },
       });
     } else {
@@ -59,7 +59,7 @@ export async function GET(req: Request) {
           },
         },
         orderBy: {
-          createAt: "desc",
+          createdAt: "desc",
         },
       });
     }
@@ -75,7 +75,7 @@ export async function GET(req: Request) {
       nextCursor,
     });
   } catch (error) {
-    console.log("MESSAGES_GET", error);
+    console.log("[MESSAGES_GET]", error);
     return new NextResponse("Internal Error", { status: 500 });
   }
 }
